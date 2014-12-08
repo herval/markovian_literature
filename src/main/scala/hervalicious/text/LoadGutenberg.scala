@@ -1,8 +1,10 @@
 package hervalicious
 
-import scala.io.Source
+import scala.io.{Codec, Source}
+import java.nio.charset.Charset
 
 object LoadGutenberg {
+  implicit val codec: Codec = new Codec(Charset.forName("UTF-8"))
 
   def apply(filename: String): String = {
     val text = loadText(filename)
@@ -19,7 +21,7 @@ object LoadGutenberg {
   }
 
   private def loadText(filename: String) = {
-    Source.fromInputStream(Source.getClass.getResourceAsStream(s"/books/${filename}")).mkString
+    Source.fromInputStream(getClass.getResourceAsStream(s"/books/${filename}")).mkString
   }
 
 }
