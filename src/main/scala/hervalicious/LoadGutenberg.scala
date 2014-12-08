@@ -22,9 +22,4 @@ object LoadGutenberg {
     Source.fromFile(s"${basePath}/${filename}").mkString
   }
 
-
-  def main(args: Array[String]) {
-    println(LoadGutenberg("yellow_wallpaper.txt").substring(0, 100))
-  }
-
 }

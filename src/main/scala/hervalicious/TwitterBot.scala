@@ -3,7 +3,7 @@ package hervalicious
 import scala.util.Random
 
 
-object TwitterBot {
+object TwitterBot extends App {
 
   val availableBooks = List(
     BookTitle("Pride, Prejudice and $",  "Pride and Prejudice", "pride_prejudice.txt"),
@@ -17,10 +17,6 @@ object TwitterBot {
     new BookMishMash(books(0), books(1))
   }
 
-  def main(args: Array[String]) = {
-    println("Starting bot...")
-
-    println(randomBookCombo.quote)
-  }
-
+  println("Starting bot...")
+  println(randomBookCombo.quote)
 }

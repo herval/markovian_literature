@@ -1,11 +1,10 @@
 import NativePackagerKeys._
 
-packageArchetype.java_application
 
-name := "trendossaurus_markovians"
+name := "markovian_literature"
 
 version := "1.0"
 
-scalaVersion := "2.11"
+scalaVersion := "2.10.4"
 
-mainClass := Some("hervalicious.TwitterBot")
+packageArchetype.java_application
