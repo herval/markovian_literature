@@ -12,17 +12,24 @@ class MarkovChain() {
   private val sentenceOpeners = new mutable.ArrayBuffer[String]()  // TODO set
 
   // generate random babble (but only full sentences)
-  def babble(maxSentences: Int = 2): String = {
-    val fullSentences = new ArrayBuffer[String]()
+  def babble(maxChars: Int, maxSentences: Int, maxAttempts: Int): String = {
+    val candidates = new ArrayBuffer[String]()
 
-    while(fullSentences.size < maxSentences) {
+    var attempts = 0
+    var currentLength = 0
+    while(attempts < maxAttempts) {
       val sentence = singleBabble
       if(isClosing(sentence.last)) {
-        fullSentences.append(sentence.mkString(" "))
+        val phrase = sentence.mkString(" ")
+        if((currentLength + phrase.length) < maxChars) {
+          currentLength += phrase.length
+          candidates.append(phrase)
+        }
+        attempts += 1
       }
     }
 
-    fullSentences.mkString(" ")
+    candidates.take(maxSentences).mkString(" ")
   }
 
   def reset = {

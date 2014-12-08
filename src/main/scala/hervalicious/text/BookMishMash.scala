@@ -4,7 +4,8 @@ package hervalicious
 class BookMishMash(first: BookTitle, second: BookTitle) {
 
   def quote = {
-    s"${chain.babble(1)}\n\n- ${title}"
+    val chars = (140 - title.length - 10)
+    s"${chain.babble(maxChars = chars, maxSentences = 3, maxAttempts = 15)}\n\n- ${title}"
   }
 
   private val chain = {
@@ -13,6 +14,6 @@ class BookMishMash(first: BookTitle, second: BookTitle) {
       .load(LoadGutenberg(second.filename))
   }
 
-  private def title = first.prefix.replace("$", second.postfix)
+  private val title = first.prefix.replace("$", second.postfix)
 
 }
