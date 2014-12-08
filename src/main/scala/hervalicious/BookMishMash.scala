@@ -4,7 +4,7 @@ package hervalicious
 class BookMishMash(first: BookTitle, second: BookTitle) {
 
   def quote = {
-    s"${chain.babble(2)}\n\n- ${title}"
+    s"${chain.babble(1)}\n\n- ${title}"
   }
 
   private val chain = {

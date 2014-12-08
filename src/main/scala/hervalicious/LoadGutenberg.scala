@@ -4,8 +4,8 @@ import scala.io.Source
 
 object LoadGutenberg {
 
-  def apply(filename: String, basePath: String = "src/main/resources"): String = {
-    val text = loadText(filename, basePath)
+  def apply(filename: String): String = {
+    val text = loadText(filename)
     stripLicense(text)
   }
 
@@ -18,8 +18,8 @@ object LoadGutenberg {
     closing.findFirstMatchIn(start).map(_.before).getOrElse(start).toString
   }
 
-  private def loadText(filename: String, basePath: String) = {
-    Source.fromFile(s"${basePath}/${filename}").mkString
+  private def loadText(filename: String) = {
+    Source.fromInputStream(Source.getClass.getResourceAsStream(s"/books/${filename}")).mkString
   }
 
 }
