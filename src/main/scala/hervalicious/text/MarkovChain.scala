@@ -3,7 +3,6 @@ package hervalicious
 import scala.collection.mutable
 import scala.util.Random
 import scala.collection.mutable.ArrayBuffer
-import scala.io.Source
 
 class MarkovChain() {
 
