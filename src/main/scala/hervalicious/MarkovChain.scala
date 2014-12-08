@@ -26,6 +26,11 @@ class MarkovChain() {
     fullSentences.mkString(" ")
   }
 
+  def reset = {
+    chain.clear()
+    sentenceOpeners.clear()
+  }
+
   def singleBabble = {
     val sentence = new ArrayBuffer[String]()
     sentence.append(sentenceOpeners(Random.nextInt(sentenceOpeners.size)))
@@ -55,6 +60,7 @@ class MarkovChain() {
         add(w, words(i + 1))
       case _ => // nuthin.
     }
+    this
   }
 
   // remove chars we don't want to see in the generated babble
@@ -111,18 +117,4 @@ class MarkovChain() {
     }
   }
 
-}
-
-
-
-object Test {
-  def main(args: Array[String]) {
-    val chain = new MarkovChain()
-    chain.load(Source.fromFile("src/main/resources/sherlock.txt").mkString)
-    chain.load(Source.fromFile("src/main/resources/alice_wonderland.txt").mkString)
-
-    1 to 10 foreach { _ =>
-      println(chain.babble(2))
-    }
-  }
 }
