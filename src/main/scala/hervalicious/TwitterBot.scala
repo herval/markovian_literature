@@ -11,7 +11,7 @@ object TwitterBot extends App {
   println("Starting philosophical bot...")
 
   while(true) {
-    twitterApi.post(librarian.quote)
+    println(twitterApi.post(librarian.quote))
     println("Entering deep slumber for some time...")
     Thread.sleep(30.minutes.toMillis)
   }
