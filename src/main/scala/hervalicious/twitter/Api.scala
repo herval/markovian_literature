@@ -27,4 +27,12 @@ class Api {
     twitter.updateStatus(message)
   }
 
+  def followees: Array[Long] = {
+    twitter.getFollowersIDs(-1).getIDs
+  }
+
+  def follow(id: Long) = {
+    twitter.createFriendship(id)
+  }
+
 }
