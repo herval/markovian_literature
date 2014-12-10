@@ -16,7 +16,7 @@ object LoadGutenberg {
     val opening = """\*\*\*[^\*]+\*\*\*""".r
     val start = opening.findFirstMatchIn(text).map(_.after).getOrElse(text)
 
-    val closing = """End of Project Gutenberg's""".r
+    val closing = """\*\*\* END OF THIS PROJECT GUTENBERG""".r
     closing.findFirstMatchIn(start).map(_.before).getOrElse(start).toString
   }
 

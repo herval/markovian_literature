@@ -9,15 +9,24 @@ class Librarian {
   }
 
   private val availableBooks = List(
-    BookTitle("Alice in $",  "Wonderland", "pg11.txt"),
-    BookTitle("Peter Pan in $", "Peter Pan", "pg16.txt"),
-    BookTitle("A Christmas Carol for $",  "A Ghost Story", "pg46.txt"),
-    BookTitle("The Adventures of Tom Sawyer and $",  "Tom Sawyer", "pg74.txt"),
-    BookTitle("$'s Frankenstein",  "Frankenstein", "pg84.txt"),
-    BookTitle("The Picture of $",  "Dorian Gray", "pg174.txt"),
-    BookTitle("Pride, Prejudice and $", "Pride and Prejudice", "pg1342.txt"),
-    BookTitle("The Adventures of $", "Sherlock Holmes", "pg1661.txt"),
-    BookTitle("Grimm's $ Tales", "Brothers Grimm", "pg2591.txt")
+    BookTitle("Anna Karenina in $", "Anna Karenina", "1399-0.txt", "#Tolstoy"),
+    BookTitle("The King James' $", "Bible", "pg10.txt", "#Bible"),
+    BookTitle("Persuasion", "Persuasion", "pg105.txt", "#JaneAusten"),
+    BookTitle("Alice in $",  "Wonderland", "pg11.txt", "#Alice #LewisCarroll"),
+    BookTitle("Pride, Prejudice and $", "Pride and Prejudice", "pg1342.txt", "#JaneAusten"),
+    BookTitle("$'s Great Expectations", "Great Expectations", "pg1400.txt", "#Dickens"),
+    BookTitle("Peter Pan in $", "Peter Pan", "pg16.txt", "#PeterPan"),
+    BookTitle("The Adventures of $",  "Sherlock Holmes", "pg1661.txt", "#Sherlock #ConanDoyle"),
+    BookTitle("The Picture of $",  "Dorian Gray", "pg174.txt", "#DorianGray #OscarWilde"),
+    BookTitle("Authobiography of $", "Benjamin Franklin", "pg20203.txt", "#BenjaminFranklin #Biografies"),
+    BookTitle("Grimm's $ Tales", "Brothers Grimm", "pg2591.txt", "#Fairies #Grimm"),
+    BookTitle("War, Peace and $", "War and Peace", "pg2600.txt", "#War #Peace #Tolstoy"),
+    BookTitle("The Hounds of $", "Baskerville", "pg2852.txt", "#ConanDoyle"),
+    BookTitle("Leviathan's $", "Leviathan", "pg3207.txt", "#Hobbes"),
+    BookTitle("The Ladies' Book of $", "Etiquette", "pg35123.txt", "#Etiquette #FlorenceHartley"),
+    BookTitle("A Christmas Carol for $",  "A Ghost Story", "pg46.txt", "#Dickens #Christmas"),
+    BookTitle("The Adventures of Tom Sawyer and $",  "Tom Sawyer", "pg74.txt", "#TomSawyer #Twain"),
+    BookTitle("$'s Frankenstein",  "Frankenstein", "pg84.txt", "#MaryShelley")
   )
 
   private def randomBookCombo: BookMishMash = {
