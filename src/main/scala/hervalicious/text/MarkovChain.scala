@@ -62,8 +62,8 @@ class MarkovChain() {
   def load(text: String) = {
     val words = scrub(text)
     words.zipWithIndex.map {
-      case (w: String, i: Int) if i < words.size-1 =>
-        add(w, words(i + 1))
+      case (w: String, i: Int) if i < words.size-2 =>
+        add(s"${w} ${words(i + 1)}", words(i+2)) // chains of two words preceded by one
       case _ => // nuthin.
     }
     this
