@@ -4,8 +4,8 @@ package hervalicious
 class BookMishMash(first: BookTitle, second: BookTitle) {
 
   def quote = {
-    val chars = (140 - title.length - 10)
-    s"${chain.babble(maxChars = chars, maxSentences = 3, maxAttempts = 15)}\n\n- ${title}"
+    val chars = (140 - title.length - tags.length - 12)
+    s"${chain.babble(maxChars = chars, maxSentences = 3, maxAttempts = 15)}\n\n- ${title}\n\n${tags}"
   }
 
   private val chain = {
@@ -15,5 +15,5 @@ class BookMishMash(first: BookTitle, second: BookTitle) {
   }
 
   private val title = first.prefix.replace("$", second.postfix)
-
+  private val tags = s"${first.hashtags} ${second.hashtags}"
 }
