@@ -9,7 +9,7 @@ class MarkovChain() {
   type WeightedWords = mutable.HashMap[String, Int]
 
   private val chain = new mutable.HashMap[String, WeightedWords]()
-  private val sentenceOpeners = new mutable.ArrayBuffer[String]()  // TODO set
+  private val sentenceOpeners = new mutable.ArrayBuffer[String]()
 
   // generate random babble (but only full sentences)
   def babble(maxChars: Int, maxSentences: Int, maxAttempts: Int): String = {
@@ -62,8 +62,12 @@ class MarkovChain() {
   def load(text: String) = {
     val words = scrub(text)
     words.zipWithIndex.map {
-      case (w: String, i: Int) if i < words.size-2 =>
-        add(s"${w} ${words(i + 1)}", words(i+2)) // chains of two words preceded by one
+      case (w: String, i: Int) if i < words.size-3 =>
+        if(isClosing(words(i+2))) {
+          add(s"${w} ${words(i + 1)}", s"${words(i + 2)}")
+        } else {
+          add(s"${w} ${words(i + 1)}", s"${words(i + 2)} ${words(i + 3)}")
+        }
       case _ => // nuthin.
     }
     this
