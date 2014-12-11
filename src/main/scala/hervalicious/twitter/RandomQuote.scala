@@ -9,7 +9,7 @@ class RandomQuote(api: Api) extends Runnable {
 
   override def run = {
     while(true) {
-      api.post(librarian.quote)
+      println(api.post(librarian.quote))
       println("Entering deep slumber for some time...")
       Thread.sleep(30.minutes.toMillis)
     }

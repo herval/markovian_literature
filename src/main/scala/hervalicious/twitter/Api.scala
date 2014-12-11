@@ -1,7 +1,9 @@
 package hervalicious.twitter
 
 import twitter4j.conf.ConfigurationBuilder
-import twitter4j.TwitterFactory
+import twitter4j.{Status, Query, TwitterFactory}
+import scala.collection.JavaConversions._
+
 
 class Api {
 
@@ -33,6 +35,10 @@ class Api {
 
   def follow(id: Long) = {
     twitter.createFriendship(id)
+  }
+
+  def search(query: String): List[Status] = {
+    twitter.search(new Query(query)).getTweets.toList
   }
 
 }
