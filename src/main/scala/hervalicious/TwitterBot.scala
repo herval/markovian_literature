@@ -10,6 +10,5 @@ object TwitterBot extends App {
 
   new Thread(new RandomQuote(twitterApi)).start()
   new Thread(new FollowMyFollowers(twitterApi)).start()
-  new Thread(new HashtagFollower(twitterApi)).start()
 
 }

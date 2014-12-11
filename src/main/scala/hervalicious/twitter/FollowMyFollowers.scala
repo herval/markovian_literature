@@ -9,7 +9,7 @@ class FollowMyFollowers(api: Api) extends Runnable {
     while(true) {
       println("Following whoever follows me...")
       try {
-        api.followees.foreach {
+        api.followees.take(20).foreach {
           id =>
             val user = api.follow(id)
             println(s"Followed ${user.getScreenName}")
