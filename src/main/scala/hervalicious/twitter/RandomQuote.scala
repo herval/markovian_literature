@@ -11,7 +11,7 @@ class RandomQuote(api: Api) extends Runnable {
     while(true) {
       println(api.post(librarian.quote))
       println("Entering deep slumber for some time...")
-      Thread.sleep(30.minutes.toMillis)
+      Thread.sleep(60.minutes.toMillis)
     }
   }
 
