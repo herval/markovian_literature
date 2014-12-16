@@ -1,6 +1,6 @@
 package hervalicious
 
-import hervalicious.twitter.{HashtagFollower, FollowMyFollowers, RandomQuote, Api}
+import hervalicious.twitter.{AutoFollower, RandomQuote, Api}
 
 object TwitterBot extends App {
 
@@ -9,6 +9,6 @@ object TwitterBot extends App {
   println("Starting philosophical bot...")
 
   new Thread(new RandomQuote(twitterApi)).start()
-  new Thread(new FollowMyFollowers(twitterApi)).start()
+  new Thread(new AutoFollower(twitterApi)).start()
 
 }

@@ -1,32 +1,27 @@
 package hervalicious.twitter
 
-import scala.concurrent.duration._
-import twitter4j.{Status, TwitterException}
+import twitter4j.TwitterException
 
-class HashtagFollower(api: Api) extends Runnable {
+object HashtagFollower {
 
-  private val terms = List("#quotes", "#literature", "#books")
+  private val terms = List("#quotes", "#books")
 
-  override def run = {
-    while(true) {
-      try {
-        println(s"Following whoever tweets ${terms.mkString(", ")}")
-        terms.foreach {
-          q =>
-            val tweets = api.search(q)
-            val users = tweets.map(_.getUser.getId).take(2)
-            println(s"Following: ${users}")
+  def apply(api: Api) = {
+    try {
+      println(s"Following whoever tweets ${terms.mkString(", ")}")
+      terms.foreach {
+        q =>
+          val tweets = api.search(q)
+          val users = tweets.map(_.getUser.getId).take(2)
+          println(s"Following: ${users}")
 
-            users.map { u => api.follow(u) }
-        }
-      } catch {
-        case e: TwitterException if e.getErrorCode == 88 => // rate limited, do nothing about it
-          println("Whoops, too many requests!")
+          users.map {
+            u => api.follow(u)
+          }
       }
-
-      println("Done following... For now.")
-      Thread.sleep(1.hour.toMillis)
+    } catch {
+      case e: TwitterException if e.getErrorCode == 88 => // rate limited, do nothing about it
+        println("Whoops, too many requests!")
     }
   }
-
 }
