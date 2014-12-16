@@ -11,7 +11,7 @@ class Librarian {
   private val availableBooks = List(
     BookTitle("Anna Karenina in $", "Anna Karenina", "1399-0.txt", "#Tolstoy"),
     BookTitle("The King James' $", "Bible", "pg10.txt", "#Bible"),
-    BookTitle("Persuasion", "Persuasion", "pg105.txt", "#JaneAusten"),
+    BookTitle("$'s Persuasion", "Persuasion", "pg105.txt", "#JaneAusten"),
     BookTitle("Alice in $",  "Wonderland", "pg11.txt", "#Alice #LewisCarroll"),
     BookTitle("Pride, Prejudice and $", "Pride and Prejudice", "pg1342.txt", "#JaneAusten"),
     BookTitle("$'s Great Expectations", "Great Expectations", "pg1400.txt", "#Dickens"),
@@ -26,7 +26,15 @@ class Librarian {
     BookTitle("The Ladies' Book of $", "Etiquette", "pg35123.txt", "#Etiquette #FlorenceHartley"),
     BookTitle("A Christmas Carol for $",  "A Ghost Story", "pg46.txt", "#Dickens #Christmas"),
     BookTitle("The Adventures of Tom Sawyer and $",  "Tom Sawyer", "pg74.txt", "#TomSawyer #Twain"),
-    BookTitle("$'s Frankenstein",  "Frankenstein", "pg84.txt", "#MaryShelley")
+    BookTitle("$'s Frankenstein",  "Frankenstein", "pg84.txt", "#MaryShelley"),
+    BookTitle("The Prince of $",  "Prince", "pg1232.txt", "#machiavelli"),
+    BookTitle("The $ Comedy",  "Divine Comedy", "pg8800.txt", "#dante #alighieri"),
+    BookTitle("The $'s Koran",  "Koran", "pg7440.txt", "#bible #koran"),
+    BookTitle("$'s Metamorphosis",  "Metamorphosis", "pg5200.txt", "#kafka"),
+    BookTitle("$'s Dracula",  "Dracula", "pg345.txt", "#BramStoker #Dracula"),
+    BookTitle("Moby Dick and $",  "Moby Dick", "pg2701.txt", "#MobyDick"),
+    BookTitle("Ulysses and $",  "Ulysses", "pg4300.txt", "#JamesJoyce"),
+    BookTitle("$'s Romance of Lust",  "Romance of Lust", "pg30254.txt", "#romance")
   )
 
   private def randomBookCombo: BookMishMash = {
