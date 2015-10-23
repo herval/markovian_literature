@@ -6,7 +6,6 @@ import scala.collection.JavaConversions._
 
 
 class Api {
-
   object ApiConfig {
     def consumerKey = System.getenv("TWITTER_CONSUMER_KEY")
     def consumerSecret = System.getenv("TWITTER_CONSUMER_SECRET")
@@ -33,8 +32,16 @@ class Api {
     twitter.getFollowersIDs(-1).getIDs
   }
 
+  def following: Array[Long] = {
+    twitter.getFriendsIDs(-1).getIDs
+  }
+
   def follow(id: Long) = {
     twitter.createFriendship(id)
+  }
+
+  def unfollow(id: Long) = {
+    twitter.destroyFriendship(id)
   }
 
   def search(query: String): List[Status] = {

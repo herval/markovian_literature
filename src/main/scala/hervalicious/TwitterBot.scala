@@ -1,6 +1,6 @@
 package hervalicious
 
-import hervalicious.twitter.{AutoFollower, RandomQuote, Api}
+import hervalicious.twitter.{AutoUnfollower, AutoFollower, RandomQuote, Api}
 
 object TwitterBot extends App {
 
@@ -10,5 +10,6 @@ object TwitterBot extends App {
 
   new Thread(new RandomQuote(twitterApi)).start()
   new Thread(new AutoFollower(twitterApi)).start()
+  new Thread(new AutoUnfollower(twitterApi)).start()
 
 }
