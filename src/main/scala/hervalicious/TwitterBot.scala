@@ -9,7 +9,7 @@ object TwitterBot extends App {
   println("Starting philosophical bot...")
 
   new Thread(new RandomQuote(twitterApi)).start()
-  new Thread(new AutoFollower(twitterApi)).start()
-  new Thread(new AutoUnfollower(twitterApi)).start()
+//  new Thread(new AutoFollower(twitterApi)).start()
+//  new Thread(new AutoUnfollower(twitterApi)).start()
 
 }
