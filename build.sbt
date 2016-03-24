@@ -7,7 +7,9 @@ version := "1.0"
 
 scalaVersion := "2.10.4"
 
-libraryDependencies += "org.twitter4j" % "twitter4j-core" % "4.0.2"
-
+libraryDependencies ++= Seq(
+  "org.twitter4j" % "twitter4j-core" % "4.0.2",
+  "org.scalatest" %% "scalatest" % "2.2.6" % "test"
+)
 
 packageArchetype.java_application

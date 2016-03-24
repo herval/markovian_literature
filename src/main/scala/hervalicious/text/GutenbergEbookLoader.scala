@@ -1,9 +1,9 @@
-package hervalicious
+package hervalicious.text
 
 import scala.io.{Codec, Source}
 import java.nio.charset.Charset
 
-object LoadGutenberg {
+class GutenbergEbookLoader {
   implicit val codec: Codec = new Codec(Charset.forName("UTF-8"))
 
   def apply(filename: String): String = {

@@ -1,4 +1,6 @@
-package hervalicious.twitter
+package hervalicious.twitter.deprecated
+
+import hervalicious.twitter.Api
 
 import scala.concurrent.duration._
 

@@ -1,8 +1,8 @@
-package hervalicious
+package hervalicious.text
 
+import scala.annotation.tailrec
 import scala.collection.mutable
 import scala.util.Random
-import scala.collection.mutable.ArrayBuffer
 
 class MarkovChain() {
 
@@ -12,118 +12,116 @@ class MarkovChain() {
   private val sentenceOpeners = new mutable.ArrayBuffer[String]()
 
   // generate random babble (but only full sentences)
-  def babble(maxChars: Int, maxSentences: Int, maxAttempts: Int): String = {
-    val candidates = new ArrayBuffer[String]()
-
-    var attempts = 0
-    var currentLength = 0
-    while(attempts < maxAttempts) {
-      val sentence = singleBabble
-      if(isClosing(sentence.last)) {
-        val phrase = sentence.mkString(" ")
-        if((currentLength + phrase.length) < maxChars) {
-          currentLength += phrase.length
-          candidates.append(phrase)
-        }
-        attempts += 1
+  def babble(maxChars: Int, maxSentences: Int, attempts: Int): Option[String] = {
+    @tailrec def generate(acc: String = "", sentences: Int = 0): String = {
+      (acc, singleBabble()) match {
+        case (_, newPhrase) if (acc.length + newPhrase.length) >= maxChars => acc // too long! No likey!
+        case (_, _) if sentences >= maxSentences => acc // too many phrases already!
+        case (_, newPhrase) => generate(acc + " " + newPhrase, sentences + 1)
       }
     }
 
-    candidates.take(maxSentences).mkString(" ")
+    // pick the largest phrase smaller than maxChars
+    (1 to attempts).map(_ => generate()).
+        filter(_.length <= maxChars).
+        sortBy(-_.length).
+        headOption
   }
 
-  def reset = {
+  def reset() = {
     chain.clear()
     sentenceOpeners.clear()
   }
 
-  def singleBabble = {
-    val sentence = new ArrayBuffer[String]()
-    sentence.append(sentenceOpeners(Random.nextInt(sentenceOpeners.size)))
+  def singleBabble(opener: String = sentenceOpeners(Random.nextInt(sentenceOpeners.size))): String = {
+    wordStream(List(opener)).mkString(" ")
+  }
 
-    var done = false
-    while(!done) {
-      val prev = sentence.last
-      getNext(prev) match {
-        case Some(word) =>
-          sentence.append(word)
-          if(isClosing(word)) {
-            done = true
-          }
-        case None =>
-          done = true
-      }
+  @tailrec private def wordStream(words: List[String]): List[String] = {
+    nextWord(words.last) match {
+      case w@Some(word) => wordStream(words ++ w)
+      case _ => words
     }
-
-    sentence
   }
 
   // load a bunch of text into the chain
   def load(text: String) = {
-    val words = scrub(text)
-    words.zipWithIndex.map {
-      case (w: String, i: Int) if i < words.size-3 =>
-        if(isClosing(words(i+2))) {
-          add(s"${w} ${words(i + 1)}", s"${words(i + 2)}")
-        } else {
-          add(s"${w} ${words(i + 1)}", s"${words(i + 2)} ${words(i + 3)}")
-        }
-      case _ => // nuthin.
+    @tailrec def load(words: List[String]): Unit = {
+      words match {
+        case word1 :: word2 :: rest =>
+          add(word1, word2)
+          if (isClosing(word2)) {
+            load(rest) // word2 is a stop word, don't record word2 -> next as a sequence
+          } else {
+            load(word2 :: rest)
+          }
+        case _ => // done.
+      }
     }
+
+    load(scrub(text))
+
     this
   }
 
   // remove chars we don't want to see in the generated babble
-  private def scrub(input: String): Array[String] = {
-    input.replaceAll("\\(|\\)|\n|\"", " ").split(" ").map(_.trim).filterNot(_.isEmpty)
+  private def scrub(input: String): List[String] = {
+    input.replaceAll("\\(|\\)|\n|\"", " ").
+        split(" ").
+        map(_.trim).
+        filterNot(_.isEmpty).
+        toList
   }
 
   // append a word as probable next to the given word or make it a sentence opener
   private def add(word: String, nextWord: String) = {
-    if(word.head.isUpper && sentenceOpeners.indexOf(word) == -1) {
+    if (word.head.isUpper && sentenceOpeners.indexOf(word) == -1) {
       sentenceOpeners.append(word)
     }
     chainWord(word, nextWord)
   }
 
+  private val nonStop = Set(
+    "Mr.", "Mrs.", "St.", "Ms."
+  )
 
   private def isClosing(word: String) = {
-    word.indexOf(".") >= 0 || word.indexOf("?") >= 0 || word.indexOf("!") >= 0 // TODO regex
+    !nonStop.contains(word) && (
+        word.indexOf(".") >= 0 ||
+            word.indexOf("?") >= 0 ||
+            word.indexOf("!") >= 0) // TODO regex
   }
 
   // append nextWord to the list of possible words after the given word
   private def chainWord(word: String, nextWord: String): Option[WeightedWords] = {
-    val words = chain.get(word) match {
-      case Some(chain: WeightedWords) => chain
-      case None => new WeightedWords()
-    }
+    val words = chain.getOrElse(word, new WeightedWords())
+    val count = words.getOrElse(nextWord, 1)
 
-    val count = words.get(nextWord) match {
-      case Some(num: Int) => num + 1
-      case None => 1
-    }
-
-    words.put(nextWord, count)
+    words.put(nextWord, count + 1)
     chain.put(word, words)
   }
 
   // gets a random word after the given one
-  private def getNext(word: String): Option[String] = {
-    chain.get(word) match {
-      case Some(nextWords) =>
-        val totalWeights = nextWords.values.sum
-        val expected = Random.nextInt(totalWeights)+1
+  private def nextWord(word: String): Option[String] = {
+    if (isClosing(word)) {
+      None
+    } else {
+      chain.get(word) match {
+        case Some(nextWords) =>
+          val totalWeights = nextWords.values.sum
+          val expected = Random.nextInt(totalWeights) + 1
 
-        var i = 0
-        nextWords.find {
-          case(w: String, q: Int) =>
-            i += q
-            i >= expected
-        }.map{
-          case(k, v) => k
-        }
+          var i = 0
+          nextWords.find {
+            case (w: String, q: Int) =>
+              i += q
+              i >= expected
+          }.map {
+            case (k, v) => k
+          }
 
-      case _ => None
+        case _ => None
+      }
     }
   }
 

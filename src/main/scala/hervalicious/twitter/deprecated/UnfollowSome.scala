@@ -1,5 +1,6 @@
-package hervalicious.twitter
+package hervalicious.twitter.deprecated
 
+import hervalicious.twitter.Api
 import twitter4j.TwitterException
 
 object UnfollowSome {
