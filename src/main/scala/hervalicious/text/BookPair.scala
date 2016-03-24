@@ -1,11 +1,11 @@
 package hervalicious.text
 
 // two books squished together, producing pieces of fine Markovian art.
-class BookPair(first: BookTitle, second: BookTitle, bookLoader: GutenbergEbookLoader) {
+class BookPair(first: BookTitle, second: BookTitle, bookLoader: GutenbergEbookLoader, maxSentences: Int, attempts = 15) {
 
   def quote: Option[String] = {
-    val chars = (140 - title.length - tags.length - 12)
-    chain.babble(maxChars = chars, maxSentences = 3, attempts = 15).map { words =>
+    val chars = 140 - title.length - tags.length - 12
+    chain.babble(maxChars = chars, maxSentences = maxSentences, attempts = attempts).map { words =>
       s"${words}\n\n- ${title}\n\n${tags}"
     }
   }
